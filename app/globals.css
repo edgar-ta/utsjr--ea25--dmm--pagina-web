@@ -3,19 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: #FFC0CB;
+  --primary-dark: #FF69B4;
+  --background: #FFF5F7;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply bg-[#FFF5F7];
+  }
+  
+  h1, h2, h3 {
+    @apply font-libre-baskerville;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.logo {
+  @apply font-caveat;
+}
+
+.nav-link {
+  @apply hover:text-pink-700 transition-colors duration-300;
 }
