@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 
 import queretaroCraft1 from "@/public/queretaro-craft-1.png"
@@ -28,12 +28,13 @@ const carouselItems = [
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0)
 
+  const localTimer = useRef<undefined | NodeJS.Timeout>(undefined)
   useEffect(() => {
-    const timer = setInterval(() => {
+    localTimer.current = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % carouselItems.length)
-    }, 10_000)
-    return () => clearInterval(timer)
-  }, [])
+    }, 10_000);
+    return () => clearInterval(localTimer.current)
+  })
 
   return (
     <div className="relative min-h-[80vh] lg:aspect-[16_/_7] lg:max-w-full">
@@ -90,7 +91,10 @@ export default function Hero() {
         {carouselItems.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrentSlide(index)}
+            onClick={() => {
+              clearInterval(localTimer.current)
+              setCurrentSlide(index)
+            }}
             className={`w-2 h-2 rounded-full transition-colors duration-300 ${
               index === currentSlide ? 'bg-white' : 'bg-white/50'
             }`}
@@ -100,4 +104,5 @@ export default function Hero() {
     </div>
   )
 }
+
 
